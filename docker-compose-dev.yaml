@@ -1,0 +1,27 @@
+services:
+  website:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    env_file:
+      - defaults.env
+      - .env
+    volumes:
+      - "./site/public/:/var/www/html:ro"
+      - "./site/src/:/var/www/src:ro"
+      - "./site/data/:/var/www/data:ro"
+      - ".env/:/var/www/.env:ro"
+      - "./config/php/xdebug.ini:/usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini:ro"
+      - "./config/php/error_reporting_dev.ini:/usr/local/etc/php/conf.d/error_reporting.ini:ro"
+      #- "./phpinfo.php:/var/www/html/phpinfo.php:ro"
+    ports:
+      - 8087:80
+    expose:
+      - 9003
+    networks:
+      - dev-website
+
+networks:
+  dev-website:
+    name: dev-website
+    external: true

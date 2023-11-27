@@ -1,0 +1,7 @@
+**/tmp/*
+**/minified/*
+!.htaccess
+vendor/
+.env
+.vscode
+xdebug_profiling/**

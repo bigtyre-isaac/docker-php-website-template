@@ -1,0 +1,16 @@
+services:
+  website:
+    build: .
+    environment:
+      - BASE_URL=http://localhost:8087/
+    volumes:
+      - "./site/public/:/var/www/html"
+      - "./site/src/:/var/www/src:ro"
+      - "./site/data/:/var/www/data:ro"
+      - ".env/:/var/www/.env:ro"
+      - "./config/php/error_reporting.ini:/usr/local/etc/php/conf.d/error_reporting.ini:ro"
+      #- "./phpinfo.php:/var/www/html/phpinfo.php:ro"
+    ports:
+      - 8087:80
+    expose:
+      - 9003

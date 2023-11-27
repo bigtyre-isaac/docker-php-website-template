@@ -1,0 +1,23 @@
+{
+  "name": "bigtyre/inventory-signalr-test",
+  "type": "project",
+  "authors": [
+    {
+      "name": "Isaac Osment",
+      "email": "isaac@bigtyre.com.au"
+    }
+  ],
+  "require": {
+    "php": ">=8.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "BigTyre\\" : "src/lib"
+    }
+  },
+  "config": {
+    "platform": {
+      "php": "8.0"
+    }
+  }
+}

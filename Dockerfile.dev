@@ -1,0 +1,25 @@
+FROM php:8.0-apache as final
+RUN a2enmod rewrite && a2enmod expires && a2enmod deflate
+
+# Install system dependencies and PHP extensions
+RUN docker-php-ext-install mysqli
+RUN pecl install apcu redis xdebug && docker-php-ext-enable apcu redis xdebug
+
+COPY config/php/error_reporting.ini /usr/local/etc/php/conf.d/error_reporting.ini
+
+# Build composer dependencies
+FROM composer AS composer_build
+
+# Install dependencies
+COPY site/composer.json /app/
+RUN composer install --ignore-platform-reqs --no-autoloader --no-scripts
+
+# Copy in app files & generate autoloader files
+COPY site/src /app/src
+COPY site/bootstrap.php /app
+COPY site/public /app/html
+RUN composer install --no-dev --optimize-autoloader --ignore-platform-reqs 
+
+# Create the final image
+FROM final
+COPY --chown=www-data --from=composer_build /app/ /var/www/
